@@ -5,17 +5,16 @@ import (
 	"fmt"
 	"github.com/ujinjinjin/user_service/factories"
 	"github.com/ujinjinjin/user_service/repository"
+	"google.golang.org/grpc"
 	"log"
 	"net"
-
-	"google.golang.org/grpc"
 
 	pb "github.com/ujinjinjin/user_service/interface"
 	"github.com/ujinjinjin/user_service/services"
 )
 
 var (
-	address = flag.String("address", "localhost", "The server address")
+	address = flag.String("address", "", "The server address")
 	port = flag.Int("port", 10000, "The server port")
 )
 
