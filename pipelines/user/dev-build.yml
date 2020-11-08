@@ -1,5 +1,14 @@
 trigger:
-- develop
+  batch: true
+  branches:
+    include:
+    - develop
+    exclude:
+    - main
+  paths:
+    include:
+    - pipelines/user/*
+    - user/*
 
 pr:
   branches:
@@ -8,11 +17,19 @@ pr:
 
 variables:
   - name: 'pipeline_name'
-    value: 'User Service (develop)'
+    value: 'User Service'
   - name: 'service_name'
     value: 'user'
+  - name: 'major'
+    value: 0
+  - name: 'minor'
+    value: 0
+  - name: 'patch'
+    value: $[counter('user_service', 1)]
+  - name: 'image_version'
+    value: 'v$(major).$(minor).$(patch)-dev'
 
-name: $[variables.pipeline_name]
+name: '$(pipeline_name) - $(Date:yyyyMMdd)$(Rev:.r)'
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -24,6 +41,7 @@ steps:
     containerRegistry: 'Docker Hub [ujinjinjin]'
     repository: 'ujinjinjin/$(service_name)'
     command: 'build'
+    tags: '$(image_version)'
     Dockerfile: '$(service_name)/Dockerfile'
 
 - task: Docker@2
@@ -32,3 +50,4 @@ steps:
     containerRegistry: 'Docker Hub [ujinjinjin]'
     repository: 'ujinjinjin/$(service_name)'
     command: 'push'
+    tags: '$(image_version)'
