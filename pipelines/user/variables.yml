@@ -1,0 +1,11 @@
+variables:
+  pipeline_name: 'User Service'
+  service_name: 'user'
+  major: 0
+  minor: 0
+  patch: $[counter('user_service', 1)]
+  image_version: 'v$(major).$(minor).$(patch)'
+  ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:
+    version_suffix: ''
+  ${{ if not(eq(variables['Build.SourceBranchName'], 'main')) }}:
+    version_suffix: '-dev'
