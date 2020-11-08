@@ -9,8 +9,12 @@ build:
 	docker build . -t ujinjinjin/user:latest
 	docker image prune --filter label=stage=intermediate -f
 
-run:
-	docker run -p 10000:10000 ujinjinjin/user:latest
+push:
+	docker push ujinjinjin/user:latest
 
 publish:
-	docker push ujinjinjin/user:latest
+	make build
+	make push
+
+run:
+	docker run -p 10000:10000 ujinjinjin/user:latest
