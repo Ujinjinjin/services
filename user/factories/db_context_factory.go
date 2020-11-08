@@ -1,18 +1,21 @@
 package factories
 
-import "github.com/ujinjinjin/services/user/repository/context"
+import (
+	"fmt"
+	"github.com/ujinjinjin/services/user/repository/context"
+)
 
 type DbContextFactory struct {
-
+	connectionString string
 }
 
-func NewDbContextFactory() *DbContextFactory {
+func NewDbContextFactory(dbHost, dbUser, dbPassword, dbName *string) *DbContextFactory {
 	return &DbContextFactory{
-
+		connectionString: fmt.Sprintf("host=%s user=%s password=%s database=%s", *dbHost, *dbUser, *dbPassword, *dbName),
 	}
 }
 
 // CreateUser creates user with specified fields
-func (s *DbContextFactory) CreateUserDbContext() (*context.UserDbContext, error) {
-	return context.NewUserDbContext(), nil
+func (s *DbContextFactory) CreateUserDbContext() *context.UserDbContext {
+	return context.NewUserDbContext(s.connectionString)
 }

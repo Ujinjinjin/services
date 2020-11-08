@@ -32,8 +32,5 @@ FROM scratch
 
 COPY --from=builder /dist/main /
 
-# Export necessary port
-EXPOSE 10000
-
 # Command to run
 ENTRYPOINT ["/main"]

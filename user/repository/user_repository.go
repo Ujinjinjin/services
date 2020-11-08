@@ -5,7 +5,7 @@ import (
 )
 
 type UserRepository struct {
-	*factories.DbContextFactory
+	factory *factories.DbContextFactory
 }
 
 func NewUserRepository(factory *factories.DbContextFactory) *UserRepository {
@@ -15,10 +15,7 @@ func NewUserRepository(factory *factories.DbContextFactory) *UserRepository {
 }
 
 func (s *UserRepository) Test() (string, error) {
-	dbContext, err := s.CreateUserDbContext()
-	if err != nil {
-		return "", err
-	}
+	dbContext := s.factory.CreateUserDbContext()
 	defer dbContext.Dispose()
 
 	return dbContext.TestQuery()

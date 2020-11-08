@@ -10,12 +10,12 @@ import (
 
 type UserRpcService struct {
 	pb.UnimplementedUserServiceServer
-	*repository.UserRepository
+	repository *repository.UserRepository
 }
 
 func InitService(userRepository *repository.UserRepository) *UserRpcService {
 	return &UserRpcService{
-		UserRepository: userRepository,
+		repository: userRepository,
 	}
 }
 
@@ -28,7 +28,7 @@ func (s *UserRpcService) CreateUser(context context.Context, request *pb.CreateU
 	log.Printf("\tLastName: %s", request.LastName)
 	log.Printf("\tMiddleName: %s", request.MiddleName)
 
-	testResult, err := s.Test()
+	testResult, err := s.repository.Test()
 	if err != nil {
 		return nil, err
 	}

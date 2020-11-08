@@ -11,9 +11,8 @@ type UserDbContext struct {
 	connection *pgx.Conn
 }
 
-func NewUserDbContext() *UserDbContext {
-	//conn, err := pgx.Connect(context.Background(), os.Getenv("DATABASE_URL"))
-	var connection, err = pgx.Connect(context.Background(), "host=localhost user=local_user password=qwer1234 database=local_db")
+func NewUserDbContext(connectionString string) *UserDbContext {
+	var connection, err = pgx.Connect(context.Background(), connectionString)
 	if err != nil {
 		log.Printf("UserDbContext:NewUserDbContext:Error; %s", err)
 	}
