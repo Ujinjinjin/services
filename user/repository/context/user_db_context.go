@@ -3,7 +3,7 @@ package context
 import (
 	"context"
 	"github.com/jackc/pgx/v4"
-	"github.com/ujinjinjin/user_service/converters"
+	"github.com/ujinjinjin/services/user/converters"
 	"log"
 )
 

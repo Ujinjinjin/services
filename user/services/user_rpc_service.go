@@ -4,8 +4,8 @@ import (
 	"context"
 	"log"
 
-	pb "github.com/ujinjinjin/user_service/interface"
-	"github.com/ujinjinjin/user_service/repository"
+	pb "github.com/ujinjinjin/services/user/interface"
+	"github.com/ujinjinjin/services/user/repository"
 )
 
 type UserRpcService struct {

@@ -3,14 +3,14 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/ujinjinjin/user_service/factories"
-	"github.com/ujinjinjin/user_service/repository"
+	"github.com/ujinjinjin/services/user/factories"
+	"github.com/ujinjinjin/services/user/repository"
 	"google.golang.org/grpc"
 	"log"
 	"net"
 
-	pb "github.com/ujinjinjin/user_service/interface"
-	"github.com/ujinjinjin/user_service/services"
+	pb "github.com/ujinjinjin/services/user/interface"
+	"github.com/ujinjinjin/services/user/services"
 )
 
 var (

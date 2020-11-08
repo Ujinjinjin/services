@@ -1,6 +1,6 @@
 package factories
 
-import "github.com/ujinjinjin/user_service/repository/context"
+import "github.com/ujinjinjin/services/user/repository/context"
 
 type DbContextFactory struct {
 

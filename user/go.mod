@@ -1,4 +1,4 @@
-module github.com/ujinjinjin/user_service
+module github.com/ujinjinjin/services/user
 
 go 1.15
 

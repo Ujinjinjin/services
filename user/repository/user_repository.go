@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"github.com/ujinjinjin/user_service/factories"
+	"github.com/ujinjinjin/services/user/factories"
 )
 
 type UserRepository struct {
