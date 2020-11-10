@@ -1,3 +1,5 @@
+machine_ip := $(shell ifconfig eth0 | grep 'inet' | cut -d: -f2 | awk '{print $$2}' | grep .)
+
 build:
 	docker build . -t ujinjinjin/user:latest
 	docker image prune --filter label=stage=intermediate -f
@@ -18,6 +20,7 @@ run:
            -e DB_PASSWORD=$(DB_PASSWORD)\
            -e DB_NAME=$(DB_NAME)\
            -p 10000:$(SERVICE_PORT)\
+           --add-host localhost:$(machine_ip)\
            ujinjinjin/user:latest
 
 local_run:
