@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/jackc/pgx/v4"
 	"github.com/ujinjinjin/services/user/converters"
+	"github.com/ujinjinjin/services/user/models"
 	"log"
 )
 
@@ -11,6 +12,7 @@ type UserDbContext struct {
 	connection *pgx.Conn
 }
 
+// NewUserDbContext create new user database context
 func NewUserDbContext(connectionString string) *UserDbContext {
 	var connection, err = pgx.Connect(context.Background(), connectionString)
 	if err != nil {
@@ -22,6 +24,7 @@ func NewUserDbContext(connectionString string) *UserDbContext {
 	}
 }
 
+// Dispose close open connection to database
 func (s *UserDbContext) Dispose() {
 	err := s.connection.Close(context.Background())
 	if err != nil {
@@ -29,27 +32,12 @@ func (s *UserDbContext) Dispose() {
 	}
 }
 
-func (s *UserDbContext) TestSingle() (string, error) {
-	testTable, err := converters.RowToTestTable(s.connection.QueryRow(context.Background(), "select id, name from test_table where id=1"))
+// GetUser get user
+func (s *UserDbContext) GetUser(userId int32) (models.DbUser, error) {
+	dbUser, err := converters.RowToDbUser(s.connection.QueryRow(context.Background(), "select * from user__get(p_user_id := $1);", userId))
 	if err != nil {
-		log.Printf("UserDbContext:TestSingle:Error; %v\n", err)
+		log.Printf("UserDbContext:GetUser:Error; %v\n", err)
+		return models.DbUser{}, err
 	}
-
-	return testTable.Name, nil
-}
-
-func (s *UserDbContext) TestQuery() (string, error) {
-	queryResult, err := s.connection.Query(context.Background(), "select id, name from test_table")
-	if err != nil {
-		log.Printf("QueryRow failed: %v\n", err)
-	}
-
-	testTable, err := converters.RowsToTestTableArray(queryResult)
-	if err != nil {
-		log.Printf("QueryRow failed: %v\n", err)
-	}
-
-	log.Printf("testTable: %v", testTable)
-
-	return testTable[1].Name, nil
+	return dbUser, nil
 }

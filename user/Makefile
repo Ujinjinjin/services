@@ -24,12 +24,13 @@ run:
            ujinjinjin/user:latest
 
 local_run:
+	make build
 	make run -e SERVICE_ADDRESS=""\
              -e SERVICE_PORT="10000"\
              -e DB_HOST="localhost"\
              -e DB_USER="local_user"\
              -e DB_PASSWORD="qwer1234"\
-             -e DB_NAME="local_db"
+             -e DB_NAME="user_service"
 
 go_build:
 	go mod download
@@ -41,4 +42,9 @@ go_run:
                --db-host "localhost"\
                --db-user "local_user"\
                --db-password "qwer1234"\
-               --db-name "local_db"
+               --db-name "user_service"
+
+protoc_update:
+	protoc --go_out=./interface --go_opt=paths=source_relative \
+ 		   --go-grpc_out=./interface --go-grpc_opt=paths=source_relative \
+ 		   --proto_path=../protocol_buffers user_service.proto

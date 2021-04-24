@@ -1,0 +1,3 @@
+ConnectionString: Server=localhost;Database=user_service;User Id=local_user;Password=qwer1234;
+LogLevel: 6
+ProviderName: PostgreSQL.9.5

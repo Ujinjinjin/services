@@ -15,7 +15,7 @@ func NewDbContextFactory(dbHost, dbUser, dbPassword, dbName *string) *DbContextF
 	}
 }
 
-// CreateUser creates user with specified fields
+// CreateUserDbContext creates database context
 func (s *DbContextFactory) CreateUserDbContext() *context.UserDbContext {
 	return context.NewUserDbContext(s.connectionString)
 }
