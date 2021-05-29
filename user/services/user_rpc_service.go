@@ -19,21 +19,32 @@ func InitService(userRepository *repository.UserRepository) *UserRpcService {
 }
 
 // GetUser get user
-func (s *UserRpcService) GetUser(context context.Context, request *pb.GetUserRequest) (*pb.GetUserReply, error) {
-
-	user, err := s.repository.GetUser(request.UserId)
+func (s *UserRpcService) GetUser(_ context.Context, request *pb.GetUserRequest) (*pb.GetUserReply, error) {
+	user, err := s.repository.GetUser(request.UserId, int32(request.IsDeleted))
 	if err != nil {
 		return nil, err
 	}
 
 	var result = &pb.GetUserReply{
-		User: &pb.User{
-			UserId:     user.UserId,
-			FirstName:  user.FirstName,
-			LastName:   user.LastName,
-			MiddleName: user.MiddleName,
-			Email:      user.Email,
-		},
+		User: &user,
+	}
+	return result, nil
+}
+
+// GetUserList get user list by filter
+func (s *UserRpcService) GetUserList(_ context.Context, request *pb.GetUserListRequest) (*pb.GetUserListReply, error) {
+	userList, err := s.repository.GetUserList(
+		request.UserIdList,
+		request.Username,
+		request.Email,
+		int32(request.IsDeleted),
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	var result = &pb.GetUserListReply{
+		UserList: userList,
 	}
 	return result, nil
 }

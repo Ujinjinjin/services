@@ -1,14 +1,19 @@
-﻿create table "user"
-(
-	user_id serial not null,
-	username varchar(128) not null,
-	email varchar(128) not null,
-	first_name varchar(256) null,
-	last_name varchar(256) null,
-	middle_name varchar(256) null
-);
+﻿do $$
+begin
+	if (select system__exists_table('user') is false) then
+		create table "user"
+		(
+			user_id serial not null,
+			username varchar(128) not null,
+			email varchar(128) not null,
+			first_name varchar(256) null,
+			last_name varchar(256) null,
+			middle_name varchar(256) null
+		);
 
-alter table "user" add constraint pk$user primary key (user_id);
+		alter table "user" add constraint pk$user primary key (user_id);
 
-create index i$user$username on "user" (username);
-create index i$user$email on "user" (email);
+		create index i$user$username on "user" (username);
+		create index i$user$email on "user" (email);
+	end if;
+end $$

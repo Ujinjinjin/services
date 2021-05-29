@@ -8,7 +8,15 @@ import (
 // RowToDbUser convert database query result to DbUser
 func RowToDbUser(row pgx.Row) (models.DbUser, error){
 	var dbUser models.DbUser
-	err := row.Scan(&dbUser.UserId, &dbUser.Username, &dbUser.Email, &dbUser.FirstName, &dbUser.LastName, &dbUser.MiddleName)
+	err := row.Scan(
+		&dbUser.UserId,
+		&dbUser.Username,
+		&dbUser.Email,
+		&dbUser.FirstName,
+		&dbUser.LastName,
+		&dbUser.MiddleName,
+		&dbUser.IsDeleted,
+	)
 	if err != nil {
 		return dbUser, err
 	}
@@ -21,7 +29,15 @@ func RowsToDbUserArray(rows pgx.Rows) ([]models.DbUser, error){
 
 	for rows.Next() {
 		var dbUser models.DbUser
-		var err = rows.Scan(&dbUser.UserId, &dbUser.Username, &dbUser.Email, &dbUser.FirstName, &dbUser.LastName, &dbUser.MiddleName)
+		var err = rows.Scan(
+			&dbUser.UserId,
+			&dbUser.Username,
+			&dbUser.Email,
+			&dbUser.FirstName,
+			&dbUser.LastName,
+			&dbUser.MiddleName,
+			&dbUser.IsDeleted,
+		)
 		if err != nil {
 			return nil, err
 		}

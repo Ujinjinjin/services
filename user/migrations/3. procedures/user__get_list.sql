@@ -1,9 +1,11 @@
 -- Drop function
-select system__drop_routine('user__get');
+select system__drop_routine('user__get_list');
 
 -- Crate function
-create or replace function user__get(
-	p_user_id integer,
+create or replace function user__get_list(
+	p_user_id_list integer[],
+	p_username varchar(128),
+	p_email varchar(128),
 	p_is_deleted integer
 )
 returns table (
@@ -35,12 +37,23 @@ begin
 		"user".is_deleted
 	from "user"
 	where 1 = 1
-		and "user".user_id = p_user_id
+		and(1 = 0
+			or array_length(p_user_id_list, 1) = 0
+			or "user".user_id = any(p_user_id_list)
+		)
+		and(1 = 0
+			or p_username is null
+			or "user".username like '%' || p_username || '%'
+		)
+		and(1 = 0
+			or p_email is null
+			or "user".email like '%' || p_email || '%'
+		)
 		and(1 = 0
 			or v_is_deleted is null
 			or "user".is_deleted = v_is_deleted
 		)
-	limit 1
+	order by "user".user_id
 	;
 	----------------------------------------
 end;

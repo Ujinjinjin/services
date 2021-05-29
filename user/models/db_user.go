@@ -7,4 +7,5 @@ type DbUser struct {
 	FirstName string
 	LastName string
 	MiddleName string
+	IsDeleted bool
 }
